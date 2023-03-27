@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "testing"
+version = "0.1.0"
+description = ""
+authors = ["Rafael Lucena"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytest = "^7.2.2"
+click = "^8.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
