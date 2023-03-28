@@ -10,7 +10,7 @@ def cli():
 
 def _invert_file_content(filepath):
     content = ff.read_file(filepath)
-    inv_content = ''.join(ff.invert_text(content))
+    inv_content = '\n'.join(ff.invert_text(content))
     
     new_filename = ff.get_inverted_filename(filepath)
 
@@ -19,6 +19,7 @@ def _invert_file_content(filepath):
 @cli.command()
 @click.argument('filepath', type=str)
 def invert_file_content(filepath):
+    # This makes this function more easily testable outside of the click command
     return _invert_file_content(filepath)
 
 

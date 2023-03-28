@@ -5,7 +5,6 @@ import testing
 def assert_file_content_equals(file1, file2):
 	with open(file1) as f:
 		content1 = f.read()
-
 	with open(file2) as f:
 		content2 = f.read()
 
@@ -20,29 +19,30 @@ def test_invert_file(monkeypatch, tmp_path):
 
 	testing.cli_tool._invert_file_content('tests/test_file_functions/mock_files/to_invert.txt')
 
-
-
-	import os
-	for part in os.walk(tmp_path):
-		print(part)
-
-
-	assert assert_file_content_equals(
+	assert_file_content_equals(
 		'tests/test_file_functions/mock_files/expected_output.txt',
 		f'{tmp_path}/to_invert_inv.txt'
 		)
 
 
-# def test_cli_invert_file(tmp_path):
-# 	runner = CliRunner()
+def test_cli_invert_file(monkeypatch, tmp_path):
+	monkeypatch.setattr(
+		testing.file_functions,
+		'get_inverted_filename',
+		lambda filepath: f'{tmp_path}/to_invert_inv.txt')
 
-# 	result = runner.invoke(testing.cli, ['invert-file-content', 'tests/test_file_functions/mock_files/to_invert.txt'])
+	runner = CliRunner()
 
-# 	# All good
-# 	assert not result.exception
-# 	assert result.exit_code == 0
+	result = runner.invoke(
+		testing.cli,
+		['invert-file-content', 'tests/test_file_functions/mock_files/to_invert.txt']
+	)
 
-# 	assert assert_file_content_equals(
-# 		'tests/test_file_functions/mock_files/expected_output.txt',
-# 		f'{tmp_path}/to_invert_inv.txt'
-# 		)
+	# All good
+	assert not result.exception
+	assert result.exit_code == 0
+
+	assert_file_content_equals(
+		'tests/test_file_functions/mock_files/expected_output.txt',
+		f'{tmp_path}/to_invert_inv.txt'
+		)
