@@ -13,11 +13,11 @@ def assert_file_content_equals(file1, file2):
 
 def test_invert_file(monkeypatch, tmp_path):
 	monkeypatch.setattr(
-		testing.file_functions,
+		testing.file_functions.functions,
 		'get_inverted_filename',
 		lambda filepath: f'{tmp_path}/to_invert_inv.txt')
 
-	testing.cli_tool._invert_file_content('tests/test_file_functions/mock_files/to_invert.txt')
+	testing.file_functions.invert_file_content('tests/test_file_functions/mock_files/to_invert.txt')
 
 	assert_file_content_equals(
 		'tests/test_file_functions/mock_files/expected_output.txt',
@@ -27,7 +27,7 @@ def test_invert_file(monkeypatch, tmp_path):
 
 def test_cli_invert_file(monkeypatch, tmp_path):
 	monkeypatch.setattr(
-		testing.file_functions,
+		testing.file_functions.functions,
 		'get_inverted_filename',
 		lambda filepath: f'{tmp_path}/to_invert_inv.txt')
 
