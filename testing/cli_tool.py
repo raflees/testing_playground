@@ -8,19 +8,12 @@ import testing.file_functions as ff
 def cli():
     pass
 
-def _invert_file_content(filepath):
-    content = ff.read_file(filepath)
-    inv_content = '\n'.join(ff.invert_text(content))
-    
-    new_filename = ff.get_inverted_filename(filepath)
-
-    ff.write_file(new_filename, inv_content)
 
 @cli.command()
 @click.argument('filepath', type=str)
 def invert_file_content(filepath):
     # This makes this function more easily testable outside of the click command
-    return _invert_file_content(filepath)
+    return ff.invert_file_content(filepath)
 
 
 @cli.command()
