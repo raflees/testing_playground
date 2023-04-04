@@ -13,9 +13,12 @@ def invert_text(lines):
 		yield inv_line
 
 def invert_file_content(filepath):
+	# Read file
     content = read_file(filepath)
-    inv_content = '\n'.join(invert_text(content))
-    
-    new_filename = get_inverted_filename(filepath)
 
+    # Invert every line
+    inv_content = '\n'.join(invert_text(content)) + '\n'
+    
+    # Saves to a new file
+    new_filename = get_inverted_filename(filepath)
     write_file(new_filename, inv_content)

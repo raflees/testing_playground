@@ -2,10 +2,10 @@ from typing import Union, List
 import warnings
 
 def is_even(number):
+    # Convert no a number
     number = float(number)
-    
-    # print(number, number - int(number))
 
+    # If there is a decimal part, warn the user
     if number - int(number) != 0:
         warnings.warn("Got number with decimal part: {}".format(number))
         number = int(number)
