@@ -14,15 +14,27 @@ def fetch_result(query):
     for row in cursor:
         yield {cols[i]: val for i, val in enumerate(row)}
 
-def summarize_field(field, field_data):
-    # values = [row[field] for row in data if row.get(field, None) is not None]
-    # return {
-    #     "min": round(min(values), 4),
-    #     "max": round(max(values), 4),
-    #     "avg": round(st.mean(values), 4),
-    #     "std": round(st.stdev(vaues), 4)
-    # }
+def summarize_table(query):
+    # Fetches data
+    data = pd.DataFrame(data=list(fetch_result(query)))
 
+    # Transposes so we can access all values at once
+    t_data = data.transpose()
+
+    # Create a df with the field types so we can filter
+    df_types = data.dtypes
+
+    output = {}
+    for field in df_types.loc[df_types == 'int64'].index:
+        summarize_field(field, t_data.loc[field])
+        try:
+            output[field] = summarize_field(field, t_data.loc[field])
+        except:
+            pass
+
+    return output
+
+def summarize_field(field, field_data):
     return {
         "min": round(min(field_data), 4),
         "max": round(max(field_data), 4),
@@ -30,20 +42,3 @@ def summarize_field(field, field_data):
         "std": round(st.stdev(field_data), 4)
     }
 
-def summarize_table(query):
-    data = pd.DataFrame(data=list(fetch_result(query)))
-
-    if len(data) == 0:
-        return {}
-
-    t_data = data.transpose()
-    print(t_data)
-    print(t_data.loc('IdText'))
-    output = {}
-    for field in data.columns:
-        try:
-            output[field] = summarize_field(t_data.loc(field))
-        except:
-            pass
-
-    return output

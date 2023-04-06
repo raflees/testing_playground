@@ -28,10 +28,10 @@ def test_nf_geo_mean():
     assert geo_mean([10, math.pi]) == 5.6050
 
     # Hammer Time!
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError): # Python will raise this
         geo_mean(1)
 
-    with pytest.raises(TypeError):
+    with pytest.raises(TypeError, match=f"Expecting int or float, got {str}"): # I will raise this
         geo_mean(["1", "2.9802"])
 
     with pytest.raises(ValueError, match="Got invalid input: -2"): # I will raise this
